@@ -15,18 +15,4 @@ namespace StockExchangeHelper.Models
 
         [XmlElement("Rates")] public Rates Rates { get; set; }
     }
-
-    public class Rates
-    {
-        [XmlElement("Rate")] public List<Rate> RateList { get; set; }
-    }
-
-    public class Rate
-    {
-        [XmlElement("No")] public string No { get; set; }
-
-        [XmlElement("EffectiveDate")] public DateTime EffectiveDate { get; set; }
-
-        [XmlElement("Mid")] public double Mid { get; set; }
-    }
 }

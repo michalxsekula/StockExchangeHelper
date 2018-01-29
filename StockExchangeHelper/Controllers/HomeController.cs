@@ -10,8 +10,7 @@ namespace StockExchangeHelper.Controllers
     {
         public ActionResult Index()
         {
-            return Redirect("ExchangeRate/Index");
-            return View();
+            return Redirect("ExchangeRate");
         }
 
         public ActionResult About()

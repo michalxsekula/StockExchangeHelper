@@ -1,9 +1,10 @@
-﻿using StockExchangeHelper.Models;
+﻿using System;
+using StockExchangeHelper.Models;
 
 namespace StockExchangeHelper.Interfaces
 {
     internal interface ICurrencyExchangeService
     {
-        ExchangeRate GetExchangeRate();
+        ExchangeRate GetExchangeRate(DateTime startDate, DateTime endDate, string code);
     }
 }

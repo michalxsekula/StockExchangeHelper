@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using StockExchangeHelper.ExtensionMethods;
@@ -8,29 +9,14 @@ namespace StockExchangeHelper.Models
 {
     public class NbpOverlay : ICurrencyExchangeService
     {
-        private const string NbpUri = "http://api.nbp.pl/api/exchangerates/rates/a/eur/2017-11-01/2017-11-24/";
+        private const string BasicNbpUri = "http://api.nbp.pl/api/exchangerates/rates/a/";
         private const string DemandedOutputFormat = "application/xml";
+        private const string DateFormat = "yyyy-MM-dd";
 
-        public ExchangeRate GetExchangeRate()
+
+        private ExchangeRateNbp GetNativeExchangeRate(string nbpUri)
         {
-            var exchangeRateNbp = GetNativeExchangeRate();
-            var rateValues = exchangeRateNbp.Rates.RateList.Select(x => x.Mid).ToList();
-
-            //todo add automapper
-            return new ExchangeRate
-            {
-                Code = exchangeRateNbp.Code,
-                Currency = exchangeRateNbp.Currency,
-                AverageRate = rateValues.Average(),
-                StandardDeviation = rateValues.CalculateStandardDeviation(),
-                StartDate = exchangeRateNbp.Rates.RateList.First().EffectiveDate,
-                EndDate = exchangeRateNbp.Rates.RateList.Last().EffectiveDate
-            };
-        }
-
-        private ExchangeRateNbp GetNativeExchangeRate()
-        {
-            var request = WebRequest.Create(NbpUri);
+            var request = WebRequest.Create(nbpUri);
             request.ContentType = DemandedOutputFormat;
             var response = request.GetResponse();
             var dataStream = response.GetResponseStream();
@@ -41,6 +27,24 @@ namespace StockExchangeHelper.Models
             response.Close();
 
             return responseFromServer.ParseXmlToObject<ExchangeRateNbp>();
+        }
+
+        public ExchangeRate GetExchangeRate(DateTime startDate, DateTime endDate, string code)
+        {
+            var nbpUri = $"{BasicNbpUri}{code}/{startDate.ToString(DateFormat)}/{endDate.ToString(DateFormat)}";
+            var exchangeRateNbp = GetNativeExchangeRate(nbpUri);
+            var midRateValues = exchangeRateNbp.Rates.RateList.Select(x => x.Mid).ToList();
+
+            //todo add automapper
+            return new ExchangeRate
+            {
+                Code = exchangeRateNbp.Code,
+                Currency = exchangeRateNbp.Currency,
+                AverageRate = midRateValues.Average(),
+                StandardDeviation = midRateValues.CalculateStandardDeviation(),
+                StartDate = exchangeRateNbp.Rates.RateList.First().EffectiveDate,
+                EndDate = exchangeRateNbp.Rates.RateList.Last().EffectiveDate
+            };
         }
     }
 }

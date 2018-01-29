@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StockExchangeHelper.ExtensionMethods
 {
-    public static class Calculator
+    public static class CalculatorExtension
     {
         public static double CalculateStandardDeviation(this List<double> numbers)
         {

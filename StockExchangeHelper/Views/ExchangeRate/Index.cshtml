@@ -4,15 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    table, th, td {
-        border: 1px solid black;
-    }
-</style>
-
 <h2>@Model.Currency - @Model.Code</h2>
 <h4>
-    @Model.StartDate.ToShortDateString() - @Model.StartDate.ToShortDateString() 
+    @Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString() 
     <br/>
     Average rate : @Model.AverageRate.ToString("F4")  Standard Deviation : @Model.StandardDeviation.ToString("F4")
 </h4>
