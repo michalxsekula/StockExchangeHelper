@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using StockExchangeHelper.Interfaces;
 using StockExchangeHelper.Models;
+using StockExchangeHelper.ViewModels;
 
 namespace StockExchangeHelper.Controllers
 {
@@ -16,28 +17,32 @@ namespace StockExchangeHelper.Controllers
 
         public ActionResult GetRate()
         {
-            var exchangeRate = new ExchangeRate();
-            return View("ExchangeRateForm", exchangeRate);
+            var exchangeRateViewModel = new ExchangeRateViewModel
+            {
+                ExchangeRate = new ExchangeRate()
+            };
+            return View("ExchangeRateForm", exchangeRateViewModel);
         }
 
-        public ActionResult SendRequest(ExchangeRate exchangeRate)
+        public ActionResult SendRequest(ExchangeRateViewModel viewModel)
         {
+            viewModel.ExceptionMessage = null;
             if (!ModelState.IsValid)
-                return View("ExchangeRateForm", exchangeRate);
+                return View("ExchangeRateForm", viewModel);
             try
             {
-                exchangeRate = _currencyExchangeService.GetExchangeRate(
-                    exchangeRate.StartDate,
-                    exchangeRate.EndDate,
-                    exchangeRate.Code);
+                viewModel.ExchangeRate = _currencyExchangeService.GetExchangeRate(
+                    viewModel.ExchangeRate.StartDate,
+                    viewModel.ExchangeRate.EndDate,
+                    viewModel.ExchangeRate.Code);
             }
             catch (Exception e)
             {
-                //todo redirect to 'GetRate' page and show error message
-                return Content(e.Message);
+                viewModel.ExceptionMessage = e.Message;
+                return View("ExchangeRateForm", viewModel);
             }
 
-            return View("Index", exchangeRate);
+            return View("Index", viewModel.ExchangeRate);
         }
     }
 }
