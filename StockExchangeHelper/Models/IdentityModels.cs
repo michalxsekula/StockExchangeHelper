@@ -21,9 +21,11 @@ namespace StockExchangeHelper.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", false)
         {
         }
+
+        public DbSet<ExchangeRate> ExchangeRates { get; set; }
 
         public static ApplicationDbContext Create()
         {

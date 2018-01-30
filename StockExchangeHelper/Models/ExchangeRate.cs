@@ -23,5 +23,7 @@ namespace StockExchangeHelper.Models
         [Required]
         [Display(Name = "End Date Time")]
         public DateTime EndDate { get; set; } = DateTime.Today;
+
+        public DateTime SaveDate { get; set; }
     }
 }

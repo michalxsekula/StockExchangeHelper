@@ -1,0 +1,36 @@
+﻿@model List<StockExchangeHelper.Models.ExchangeRate>
+
+@{
+    ViewBag.Title = "History Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>History of exchange rate searches</h2>
+
+@if(@Model != null){
+<table style="width:100%">
+    <tr>
+        <th>Id</th>
+        <th>Currency</th>
+        <th>Code</th>
+        <th>Average Rate</th>
+        <th>Standard Deviation</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Save Date</th>
+    </tr>
+    @foreach (var rate in @Model)
+    {
+    <tr>
+        <td>@rate.Id</td>
+        <td>@rate.Currency</td>
+        <td>@rate.Code</td>
+        <td>@rate.AverageRate</td>
+        <td>@rate.StandardDeviation</td>
+        <td>@rate.StartDate.ToShortDateString()</td>
+        <td>@rate.EndDate.ToShortDateString()</td>
+        <td>@rate.SaveDate</td>
+    </tr>
+    }
+</table>
+}else{
+<h2>There is no records!</h2>}

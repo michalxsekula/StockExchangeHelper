@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using StockExchangeHelper.Interfaces;
 using StockExchangeHelper.Models;
@@ -8,11 +9,24 @@ namespace StockExchangeHelper.Controllers
 {
     public class ExchangeRateController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly ICurrencyExchangeService _currencyExchangeService;
 
         public ExchangeRateController()
         {
             _currencyExchangeService = new NbpOverlay();
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
+        public ActionResult GetHistoryResults()
+        {
+            var rates = _context.ExchangeRates.ToList();
+            return View(rates);
         }
 
         public ActionResult GetRate()
@@ -42,7 +56,11 @@ namespace StockExchangeHelper.Controllers
                 return View("ExchangeRateForm", viewModel);
             }
 
-            return View("Index", viewModel.ExchangeRate);
+            viewModel.ExchangeRate.SaveDate = DateTime.Now;
+            _context.ExchangeRates.Add(viewModel.ExchangeRate);
+            _context.SaveChanges();
+
+            return View("Result", viewModel.ExchangeRate);
         }
     }
 }

@@ -199,6 +199,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICurrencyExchangeService.cs" />
+    <Compile Include="Migrations\201801292313439_InitialModel.cs" />
+    <Compile Include="Migrations\201801292313439_InitialModel.Designer.cs">
+      <DependentUpon>201801292313439_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DateLessThanAttribute.cs" />
     <Compile Include="Models\ExchangeRate.cs" />
@@ -213,6 +218,10 @@
     <Compile Include="ViewModels\ExchangeRateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-StockExchangeHelper-20180128061606.mdf" />
+    <Content Include="App_Data\aspnet-StockExchangeHelper-20180128061606_log.ldf">
+      <DependentUpon>aspnet-StockExchangeHelper-20180128061606.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -269,12 +278,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ExchangeRate\Index.cshtml" />
+    <Content Include="Views\ExchangeRate\Result.cshtml" />
     <Content Include="Views\ExchangeRate\ExchangeRateForm.cshtml" />
+    <Content Include="Views\ExchangeRate\GetHistoryResults.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
@@ -287,6 +295,11 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201801292313439_InitialModel.resx">
+      <DependentUpon>201801292313439_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
