@@ -7,32 +7,33 @@
 
 <h2>Get information about currency in specific time period.</h2>
 
-
-@using (Html.BeginForm("SendRequest", "ExchangeRate"))
-{
-    <div class="form-group">
-        @Html.LabelFor(x => x.ExchangeRate.StartDate)
-        @Html.TextBoxFor(x => x.ExchangeRate.StartDate, "{0:yyyy-MM-dd}", new {@class = "form-control"})
-        @Html.ValidationMessageFor(x => x.ExchangeRate.StartDate)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.ExchangeRate.EndDate)
-        @Html.TextBoxFor(x => x.ExchangeRate.EndDate, "{0:yyyy-MM-dd}", new {@class = "form-control"})
-        @Html.ValidationMessageFor(x => x.ExchangeRate.EndDate)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.ExchangeRate.Code)
-        @Html.TextBoxFor(x => x.ExchangeRate.Code, new {@class = "form-control"})
-        @Html.ValidationMessageFor(x => x.ExchangeRate.Code)
-    </div>
-
-    @Html.HiddenFor(x => x.ExchangeRate.Id)
-    <button type="submit" class="btn btn-primary">Get</button>
-
-    if (Model.ExceptionMessage != null)
+<div>
+    @using (Html.BeginForm("SendRequest", "ExchangeRate"))
     {
-        <h2>@Model.ExceptionMessage</h2>
+        <div class="form-group">
+            @Html.LabelFor(x => x.ExchangeRate.StartDate)
+            @Html.TextBoxFor(x => x.ExchangeRate.StartDate, "{0:yyyy-MM-dd}", new {@class = "form-control"})
+            @Html.ValidationMessageFor(x => x.ExchangeRate.StartDate)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.ExchangeRate.EndDate)
+            @Html.TextBoxFor(x => x.ExchangeRate.EndDate, "{0:yyyy-MM-dd}", new {@class = "form-control"})
+            @Html.ValidationMessageFor(x => x.ExchangeRate.EndDate)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.ExchangeRate.Code)
+            @Html.TextBoxFor(x => x.ExchangeRate.Code, new {@class = "form-control"})
+            @Html.ValidationMessageFor(x => x.ExchangeRate.Code)
+        </div>
+
+        @Html.HiddenFor(x => x.ExchangeRate.Id)
+        <button type="submit" class="btn btn-primary">Get</button>
+
+        if (Model.ExceptionMessage != null)
+        {
+            <h2>@Model.ExceptionMessage</h2>
+        }
     }
-}
+</div>

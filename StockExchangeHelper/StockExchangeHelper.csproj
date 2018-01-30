@@ -197,25 +197,29 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="ExtensionMethods\CalculatorExtension.cs" />
-    <Compile Include="ExtensionMethods\XmlParser.cs" />
+    <Compile Include="ExtensionMethods\XmlTransformer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICurrencyExchangeService.cs" />
+    <Compile Include="Interfaces\IExchangeRateRecorder.cs" />
     <Compile Include="Migrations\201801292313439_InitialModel.cs" />
     <Compile Include="Migrations\201801292313439_InitialModel.Designer.cs">
       <DependentUpon>201801292313439_InitialModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Contexto.cs" />
     <Compile Include="Models\DateLessThanAttribute.cs" />
     <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\ExchangeRateNbp.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Logger.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NbpOverlay.cs" />
     <Compile Include="Models\Rate.cs" />
     <Compile Include="Models\Rates.cs" />
+    <Compile Include="Models\XmlReportsCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ExchangeRateViewModel.cs" />

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using NLog;
+using StockExchangeHelper.ExtensionMethods;
 using StockExchangeHelper.Interfaces;
 using StockExchangeHelper.Models;
 using StockExchangeHelper.ViewModels;
@@ -56,6 +57,9 @@ namespace StockExchangeHelper.Controllers
                     viewModel.ExchangeRate.StartDate,
                     viewModel.ExchangeRate.EndDate,
                     viewModel.ExchangeRate.Code);
+
+                viewModel.ExchangeRate.SaveDate = DateTime.Now;
+                ReportRecord(viewModel.ExchangeRate);
             }
             catch (Exception e)
             {
@@ -64,12 +68,15 @@ namespace StockExchangeHelper.Controllers
                 return View("ExchangeRateForm", viewModel);
             }
 
-            viewModel.ExchangeRate.SaveDate = DateTime.Now;
-            _context.ExchangeRates.Add(viewModel.ExchangeRate);
-            _context.SaveChanges();
-            _logger.Info($"Record was correctly saved in database. {viewModel.ExchangeRate}");
-
             return View("Result", viewModel.ExchangeRate);
+        }
+
+        private void ReportRecord(ExchangeRate exchangeRate)
+        {
+            exchangeRate.SaveToXmlReport();
+            _context.ExchangeRates.Add(exchangeRate);
+            _context.SaveChanges();
+            _logger.Info($"Record was correctly saved. {exchangeRate}");
         }
     }
 }
