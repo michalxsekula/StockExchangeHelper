@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
+using AutoMapper;
 using StockExchangeHelper.ExtensionMethods;
 using StockExchangeHelper.Interfaces;
 
@@ -12,7 +12,20 @@ namespace StockExchangeHelper.Models
         private const string BasicNbpUri = "http://api.nbp.pl/api/exchangerates/rates/a/";
         private const string DemandedOutputFormat = "application/xml";
         private const string DateFormat = "yyyy-MM-dd";
+        private IMapper _mapper;
 
+        public NbpOverlay()
+        {
+            InitializeMapper();
+        }
+
+        public ExchangeRate GetExchangeRate(DateTime startDate, DateTime endDate, string code)
+        {
+            var nbpUri = $"{BasicNbpUri}{code}/{startDate.ToString(DateFormat)}/{endDate.ToString(DateFormat)}";
+            var exchangeRateNbp = GetNativeExchangeRate(nbpUri);
+
+            return _mapper.Map<ExchangeRateNbp, ExchangeRate>(exchangeRateNbp);
+        }
 
         private ExchangeRateNbp GetNativeExchangeRate(string nbpUri)
         {
@@ -29,22 +42,10 @@ namespace StockExchangeHelper.Models
             return responseFromServer.ParseXmlToObject<ExchangeRateNbp>();
         }
 
-        public ExchangeRate GetExchangeRate(DateTime startDate, DateTime endDate, string code)
+        private void InitializeMapper()
         {
-            var nbpUri = $"{BasicNbpUri}{code}/{startDate.ToString(DateFormat)}/{endDate.ToString(DateFormat)}";
-            var exchangeRateNbp = GetNativeExchangeRate(nbpUri);
-            var midRateValues = exchangeRateNbp.Rates.RateList.Select(x => x.Mid).ToList();
-
-            //todo add automapper
-            return new ExchangeRate
-            {
-                Code = exchangeRateNbp.Code,
-                Currency = exchangeRateNbp.Currency,
-                AverageRate = midRateValues.Average(),
-                StandardDeviation = midRateValues.CalculateStandardDeviation(),
-                StartDate = exchangeRateNbp.Rates.RateList.First().EffectiveDate,
-                EndDate = exchangeRateNbp.Rates.RateList.Last().EffectiveDate
-            };
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<ExchangeRateNbp, ExchangeRate>(); });
+            _mapper = config.CreateMapper();
         }
     }
 }
