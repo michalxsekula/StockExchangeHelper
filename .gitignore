@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+StockExchangeHelper/NLogRaport.txt
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

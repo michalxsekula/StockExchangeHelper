@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using NLog;
 using StockExchangeHelper.Interfaces;
 using StockExchangeHelper.Models;
 using StockExchangeHelper.ViewModels;
@@ -9,6 +10,7 @@ namespace StockExchangeHelper.Controllers
 {
     public class ExchangeRateController : Controller
     {
+        private static Logger _logger;
         private readonly ApplicationDbContext _context;
         private readonly ICurrencyExchangeService _currencyExchangeService;
 
@@ -16,6 +18,7 @@ namespace StockExchangeHelper.Controllers
         {
             _currencyExchangeService = new NbpOverlay();
             _context = new ApplicationDbContext();
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         protected override void Dispose(bool disposing)
@@ -42,7 +45,11 @@ namespace StockExchangeHelper.Controllers
         {
             viewModel.ExceptionMessage = null;
             if (!ModelState.IsValid)
+            {
+                _logger.Warn("Trial of sending incorrect request.");
                 return View("ExchangeRateForm", viewModel);
+            }
+
             try
             {
                 viewModel.ExchangeRate = _currencyExchangeService.GetExchangeRate(
@@ -52,6 +59,7 @@ namespace StockExchangeHelper.Controllers
             }
             catch (Exception e)
             {
+                _logger.Error(e.Message);
                 viewModel.ExceptionMessage = e.Message;
                 return View("ExchangeRateForm", viewModel);
             }
@@ -59,6 +67,7 @@ namespace StockExchangeHelper.Controllers
             viewModel.ExchangeRate.SaveDate = DateTime.Now;
             _context.ExchangeRates.Add(viewModel.ExchangeRate);
             _context.SaveChanges();
+            _logger.Info($"Record was correctly saved in database. {viewModel.ExchangeRate}");
 
             return View("Result", viewModel.ExchangeRate);
         }

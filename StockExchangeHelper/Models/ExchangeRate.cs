@@ -25,5 +25,11 @@ namespace StockExchangeHelper.Models
         public DateTime EndDate { get; set; } = DateTime.Today;
 
         public DateTime SaveDate { get; set; }
+
+        public override string ToString()
+        {
+            return
+                $"{Currency} - {Code}, Average : {AverageRate}, StandardDeviation : {StandardDeviation}, from : {StartDate.ToShortDateString()} to : {EndDate.ToShortDateString()}, Saved at : {SaveDate}";
+        }
     }
 }
