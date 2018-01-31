@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using NLog;
@@ -29,7 +31,12 @@ namespace StockExchangeHelper.Controllers
 
         public ActionResult GetHistoryResults()
         {
-            var rates = _context.ExchangeRates.ToList();
+            var rates = new List<ExchangeRate>();
+            if (_context.ExchangeRates != null)
+            {
+                 rates = _context.ExchangeRates.ToList();
+            }
+            
             return View(rates);
         }
 
@@ -73,7 +80,11 @@ namespace StockExchangeHelper.Controllers
 
         private void ReportRecord(ExchangeRate exchangeRate)
         {
-            exchangeRate.SaveToXmlReport();
+            const string reportsPath = @"C:\temp\";
+            if (!Directory.Exists(reportsPath))
+                Directory.CreateDirectory(reportsPath);
+
+            exchangeRate.SaveToXmlReport(reportsPath);
             _context.ExchangeRates.Add(exchangeRate);
             _context.SaveChanges();
             _logger.Info($"Record was correctly saved. {exchangeRate}");

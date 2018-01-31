@@ -7,11 +7,13 @@ namespace StockExchangeHelper.ExtensionMethods
 {
     public static class XmlReportsCreator
     {
-        public const string Path = @"C:\temp\xmlReport.xml";
+        public static string Path;
+        public const string FileName = @"xmlReport.xml";
         private static List<ExchangeRate> _exchangeRates;
 
-        public static void SaveToXmlReport(this ExchangeRate exchangeRate)
+        public static void SaveToXmlReport(this ExchangeRate exchangeRate, string path)
         {
+            Path = $"{path}{FileName}";
             if (!File.Exists(Path))
             {
                 _exchangeRates = new List<ExchangeRate> {exchangeRate};
