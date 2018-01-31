@@ -10,18 +10,23 @@ namespace StockExchangeHelper.ExtensionMethods
         public static string Path;
         public const string FileName = @"xmlReport.xml";
         private static List<ExchangeRate> _exchangeRates;
-
-        public static void SaveToXmlReport(this ExchangeRate exchangeRate, string path)
+        
+        public static void SaveToXmlReport(this ExchangeRate exchangeRate, string directoryPath)
         {
-            Path = $"{path}{FileName}";
+            if (directoryPath.Last() != '\\')
+                directoryPath = string.Concat(directoryPath,'\\');
+            
+            Path = $"{directoryPath}{FileName}";
             if (!File.Exists(Path))
             {
                 _exchangeRates = new List<ExchangeRate> {exchangeRate};
-                SaveDataToFile();
-                return;
+            }
+            else
+            {
+                AppendInformationToExistingReport(exchangeRate);
             }
 
-            AppendInformationToExistingReport(exchangeRate);
+            SaveDataToFile();
         }
 
         private static void SaveDataToFile()
@@ -41,8 +46,6 @@ namespace StockExchangeHelper.ExtensionMethods
             _exchangeRates = xmlReport.ParseXmlToObject<List<ExchangeRate>>();
             exchangeRate.Id = _exchangeRates.Count();
             _exchangeRates.Add(exchangeRate);
-
-            SaveDataToFile();
         }
 
         private static string LoadXmlFile()

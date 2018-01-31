@@ -16,11 +16,11 @@ namespace StockExchangeHelper.ExtensionMethods
 
         public static string SerializeObjectToXml(this object obj)
         {
-            using (var stringwriter = new StringWriter())
+            using (var stringWriter = new StringWriter())
             {
                 var serializer = new XmlSerializer(obj.GetType());
-                serializer.Serialize(stringwriter, obj);
-                return stringwriter.ToString();
+                serializer.Serialize(stringWriter, obj);
+                return stringWriter.ToString();
             }
         }
     }
