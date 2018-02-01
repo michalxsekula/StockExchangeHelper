@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Net;
 using AutoMapper;
 using StockExchangeHelper.ExtensionMethods;
 using StockExchangeHelper.Interfaces;
@@ -10,13 +8,15 @@ namespace StockExchangeHelper.Models
     public class NbpOverlay : ICurrencyExchangeService
     {
         private const string BasicNbpUri = "http://api.nbp.pl/api/exchangerates/rates/a/";
-        private const string DemandedOutputFormat = "application/xml";
+        private const string DemandedContentType = "application/xml";
         private const string DateFormat = "yyyy-MM-dd";
+        private readonly HttpRequestProvider _httpRequestProvider;
         private IMapper _mapper;
 
         public NbpOverlay()
         {
             InitializeMapper();
+            _httpRequestProvider = new HttpRequestProvider();
         }
 
         public ExchangeRate GetExchangeRate(DateTime startDate, DateTime endDate, string code)
@@ -29,15 +29,7 @@ namespace StockExchangeHelper.Models
 
         private ExchangeRateNbp GetNativeExchangeRate(string nbpUri)
         {
-            var request = WebRequest.Create(nbpUri);
-            request.ContentType = DemandedOutputFormat;
-            var response = request.GetResponse();
-            var dataStream = response.GetResponseStream();
-            var reader = new StreamReader(dataStream);
-            var responseFromServer = reader.ReadToEnd();
-
-            reader.Close();
-            response.Close();
+            var responseFromServer = _httpRequestProvider.Get(nbpUri, DemandedContentType);
 
             return responseFromServer.ParseXmlToObject<ExchangeRateNbp>();
         }
