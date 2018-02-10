@@ -29,6 +29,7 @@
         </div>
 
         @Html.HiddenFor(x => x.ExchangeRate.Id)
+        @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-primary">Get</button>
 
         if (Model.ExceptionMessage != null)

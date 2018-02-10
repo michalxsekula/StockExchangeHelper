@@ -49,6 +49,8 @@ namespace StockExchangeHelper.Controllers
             return View("ExchangeRateForm", exchangeRateViewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SendRequest(ExchangeRateViewModel viewModel)
         {
             viewModel.ExceptionMessage = null;
