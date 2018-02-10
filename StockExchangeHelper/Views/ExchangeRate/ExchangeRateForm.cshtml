@@ -12,19 +12,19 @@
     {
         <div class="form-group">
             @Html.LabelFor(x => x.ExchangeRate.StartDate)
-            @Html.TextBoxFor(x => x.ExchangeRate.StartDate, "{0:yyyy-MM-dd}", new {@class = "form-control"})
+            @Html.TextBoxFor(x => x.ExchangeRate.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
             @Html.ValidationMessageFor(x => x.ExchangeRate.StartDate)
         </div>
 
         <div class="form-group">
             @Html.LabelFor(x => x.ExchangeRate.EndDate)
-            @Html.TextBoxFor(x => x.ExchangeRate.EndDate, "{0:yyyy-MM-dd}", new {@class = "form-control"})
+            @Html.TextBoxFor(x => x.ExchangeRate.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
             @Html.ValidationMessageFor(x => x.ExchangeRate.EndDate)
         </div>
 
         <div class="form-group">
             @Html.LabelFor(x => x.ExchangeRate.Code)
-            @Html.TextBoxFor(x => x.ExchangeRate.Code, new {@class = "form-control"})
+            @Html.TextBoxFor(x => x.ExchangeRate.Code, new { @class = "form-control" })
             @Html.ValidationMessageFor(x => x.ExchangeRate.Code)
         </div>
 
@@ -37,3 +37,7 @@
         }
     }
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
