@@ -3,7 +3,7 @@ using StockExchangeHelper.Models;
 
 namespace StockExchangeHelper.Interfaces
 {
-    internal interface ICurrencyExchangeService
+    public interface ICurrencyExchangeService
     {
         ExchangeRate GetExchangeRate(DateTime startDate, DateTime endDate, string code);
     }

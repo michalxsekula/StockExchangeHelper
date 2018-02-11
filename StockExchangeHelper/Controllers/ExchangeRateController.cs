@@ -17,9 +17,9 @@ namespace StockExchangeHelper.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ICurrencyExchangeService _currencyExchangeService;
 
-        public ExchangeRateController()
+        public ExchangeRateController(ICurrencyExchangeService currencyExchangeService)
         {
-            _currencyExchangeService = new NbpOverlay();
+            _currencyExchangeService = currencyExchangeService;
             _context = new ApplicationDbContext();
             _logger = LogManager.GetCurrentClassLogger();
         }

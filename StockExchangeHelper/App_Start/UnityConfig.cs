@@ -1,5 +1,6 @@
 using System;
-
+using StockExchangeHelper.Interfaces;
+using StockExchangeHelper.Models;
 using Unity;
 
 namespace StockExchangeHelper
@@ -42,6 +43,8 @@ namespace StockExchangeHelper
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
+
+            container.RegisterType<ICurrencyExchangeService, NbpOverlay>();
         }
     }
 }
