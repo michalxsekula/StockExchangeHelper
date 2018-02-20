@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace StockExchangeHelper.Models
+namespace BusinessLogicLayer.RequestProvider
 {
     public class HttpRequestProvider
     {

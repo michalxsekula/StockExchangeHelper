@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
-using StockExchangeHelper.ExtensionMethods;
+using BusinessLogicLayer.RequestProvider;
+using BusinessLogicLayer.XmlMethods;
 using StockExchangeHelper.Interfaces;
 
 namespace StockExchangeHelper.Models

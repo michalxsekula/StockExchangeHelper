@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 
-namespace StockExchangeHelper.ExtensionMethods
+namespace BusinessLogicLayer.XmlMethods
 {
     public static class XmlTransformer
     {

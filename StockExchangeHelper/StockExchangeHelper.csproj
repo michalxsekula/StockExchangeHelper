@@ -212,6 +212,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoggerAdaptors\DbContextAdaptor.cs" />
+    <Compile Include="LoggerAdaptors\NLoggerAdaptor.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -225,12 +227,11 @@
     <Compile Include="Controllers\ExchangeRateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="ExtensionMethods\CalculatorExtension.cs" />
-    <Compile Include="ExtensionMethods\XmlTransformer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICurrencyExchangeService.cs" />
+    <Compile Include="LoggerAdaptors\XmlLoggerAdapator.cs" />
     <Compile Include="Migrations\201801292313439_InitialModel.cs" />
     <Compile Include="Migrations\201801292313439_InitialModel.Designer.cs">
       <DependentUpon>201801292313439_InitialModel.cs</DependentUpon>
@@ -240,13 +241,11 @@
     <Compile Include="Models\DateLessThanAttribute.cs" />
     <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\ExchangeRateNbp.cs" />
-    <Compile Include="Models\HttpRequestProvider.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NbpOverlay.cs" />
     <Compile Include="Models\Rate.cs" />
     <Compile Include="Models\Rates.cs" />
-    <Compile Include="ExtensionMethods\XmlReportsCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ExchangeRateViewModel.cs" />
@@ -318,7 +317,9 @@
     <Content Include="Views\ExchangeRate\ExchangeRateForm.cshtml" />
     <Content Include="Views\ExchangeRate\GetHistoryResults.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
@@ -337,6 +338,13 @@
       <DependentUpon>201801292313439_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">
+      <Project>{5971be82-d5be-478f-b651-de8fb0592954}</Project>
+      <Name>BusinessLogicLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

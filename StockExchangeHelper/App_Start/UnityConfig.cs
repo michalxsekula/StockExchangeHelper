@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
 using StockExchangeHelper.Interfaces;
-using StockExchangeHelper.Models;
 using Unity;
+using StockExchangeHelper.LoggerAdaptors;
+using Unity.Injection;
+using StockExchangeHelper.Models;
+using BusinessLogicLayer.Loggers;
+using BusinessLogicLayer.LoggerInterfaces;
 
 namespace StockExchangeHelper
 {
@@ -45,6 +50,13 @@ namespace StockExchangeHelper
             // container.RegisterType<IProductRepository, ProductRepository>();
 
             container.RegisterType<ICurrencyExchangeService, NbpOverlay>();
+            var loggers = new List<ILogger>
+            {
+                 new DbContextAdaptor(),
+                 new NLoggerAdaptor(),
+                 new XmlLoggerAdapator()
+            };
+            container.RegisterType<ILoggerManager, LoggerManager>(new InjectionConstructor(loggers));
         }
     }
 }

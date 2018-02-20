@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Serialization;
-using StockExchangeHelper.ExtensionMethods;
+using BusinessLogicLayer.CalculationMethods;
 
 namespace StockExchangeHelper.Models
 {

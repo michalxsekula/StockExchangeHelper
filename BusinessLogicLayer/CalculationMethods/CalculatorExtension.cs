@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StockExchangeHelper.ExtensionMethods
+namespace BusinessLogicLayer.CalculationMethods
 {
     public static class CalculatorExtension
     {

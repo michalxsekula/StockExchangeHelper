@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using NLog;
-using StockExchangeHelper.ExtensionMethods;
+using BusinessLogicLayer.LoggerInterfaces;
 using StockExchangeHelper.Interfaces;
 using StockExchangeHelper.Models;
 using StockExchangeHelper.ViewModels;
@@ -13,15 +11,15 @@ namespace StockExchangeHelper.Controllers
 {
     public class ExchangeRateController : Controller
     {
-        private static Logger _logger;
+        private static ILoggerManager _loggerManager;
         private readonly ApplicationDbContext _context;
         private readonly ICurrencyExchangeService _currencyExchangeService;
 
-        public ExchangeRateController(ICurrencyExchangeService currencyExchangeService)
+        public ExchangeRateController(ICurrencyExchangeService currencyExchangeService, ILoggerManager loggerManager)
         {
             _currencyExchangeService = currencyExchangeService;
             _context = new ApplicationDbContext();
-            _logger = LogManager.GetCurrentClassLogger();
+            _loggerManager = loggerManager;
         }
 
         protected override void Dispose(bool disposing)
@@ -32,11 +30,8 @@ namespace StockExchangeHelper.Controllers
         public ActionResult GetHistoryResults()
         {
             var rates = new List<ExchangeRate>();
-            if (_context.ExchangeRates != null)
-            {
-                 rates = _context.ExchangeRates.ToList();
-            }
-            
+            if (_context.ExchangeRates != null) rates = _context.ExchangeRates.ToList();
+
             return View(rates);
         }
 
@@ -56,7 +51,7 @@ namespace StockExchangeHelper.Controllers
             viewModel.ExceptionMessage = null;
             if (!ModelState.IsValid)
             {
-                _logger.Warn("Trial of sending incorrect request.");
+                _loggerManager.LogWarning("Trial of sending incorrect request.");
                 return View("ExchangeRateForm", viewModel);
             }
 
@@ -68,28 +63,16 @@ namespace StockExchangeHelper.Controllers
                     viewModel.ExchangeRate.Code);
 
                 viewModel.ExchangeRate.SaveDate = DateTime.Now;
-                ReportRecord(viewModel.ExchangeRate);
+                _loggerManager.LogRecord(viewModel.ExchangeRate);
             }
             catch (Exception e)
             {
-                _logger.Error(e.Message);
+                _loggerManager.LogError(e.Message);
                 viewModel.ExceptionMessage = e.Message;
                 return View("ExchangeRateForm", viewModel);
             }
 
             return View("Result", viewModel.ExchangeRate);
-        }
-
-        private void ReportRecord(ExchangeRate exchangeRate)
-        {
-            const string reportsPath = @"C:\temp\";
-            if (!Directory.Exists(reportsPath))
-                Directory.CreateDirectory(reportsPath);
-
-            exchangeRate.SaveToXmlReport(reportsPath);
-            _context.ExchangeRates.Add(exchangeRate);
-            _context.SaveChanges();
-            _logger.Info($"Record was correctly saved. {exchangeRate}");
         }
     }
 }
